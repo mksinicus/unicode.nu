@@ -57,31 +57,32 @@ export def "into utf8" [
   } else {
     $temp.0
   }
-
-  let in_hexes = if $decimal {
-    try { $temp.1 | into int } catch {
-      panic {
-        msg: "Input cannot be parsed as decimal"
-        label: "Try removing `-d` if input was hex"
-        span: $span
-      }
-    }
-    $temp.1 | into int
-  } else {
-    try { $temp.1 | into int -r 16 } catch {
-      panic {
-        msg: "Input cannot be parsed as hex"
-        label: "Invalid hex"
-        span: $span
-      }
-    }
-    $temp.1
-  }
-
+  let in_hexes = $temp.1
+  
   $in_hexes | each {
     |in_hex|
     $in_hex | split row ' ' | each {
       |in_hex|
+      let in_hex = if $decimal {
+        # Without limiting it, it returns something but not exactly the result...
+        try { let _ = ($in_hex | into int) } catch {
+          panic {
+            msg: "Input cannot be parsed as decimal"
+            label: "Try removing `-d` if input was hex"
+            span: $span
+          }
+        }
+        $in_hex | into int
+      } else {
+        try { let _ = ($in_hex | into int -r 16) } catch {
+          panic {
+            msg: "Input cannot be parsed as hex"
+            label: "Invalid hex"
+            span: $span
+          }
+        }
+        $in_hex
+      }
       let in_int = ($in_hex | into int -r 16)
       if $in_int < 0 {
         panic { # fancy error make
