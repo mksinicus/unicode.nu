@@ -13,7 +13,7 @@ You can simply concatenate two files into a standalone Nushell module.
 
 ## Usage
 
-`use path/to/unicode.nu *`. Do not use `source`, we have local aliases and 
+`use path/to/unicode.nu *`. **Do not use `source`**, we have local aliases and 
 helper functions here.
 
 The following functions are exported. All functions here support cellpath.
@@ -29,7 +29,16 @@ The following functions are exported. All functions here support cellpath.
   same time), C-style and Rust-style Unicode escape, and the usual 
   representation (p.ex. `U+13000`), and string of hexadecimals separated by 
   whitespace.
-- `bytes from-string`: Parse string into Nushell's binary primitive.
+- `bytes from-string`: Parse string of bytes into Nushell's binary primitive.
+
+## Performance
+
+The following are tested On my computer (Kubuntu 22.04, CPU: R9 6950HS).
+
+- `into unicode`: Conversion of 1000 characters (with 2886 UTF-8 bytes) from a
+  Chinese text to Unicode took approximately 4 seconds.
+- `from unicode`: Conversion from the output of the above 1000 characters' text
+  took 1.227 seconds.
 
 ## Notes
 
