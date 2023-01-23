@@ -2,6 +2,14 @@
 
 Nushell module with Unicode-related utility functions
 
+## Important notice
+
+I didn't notice there is a builtin command called `char` to output Unicode
+chars from either decimal or hexadecimal code point value, which, I believe,
+is definitely faster than my script. But anyway this suits my need now. And
+`char` does not use stdin, although I can simply make a wrapper of it. I will
+consider doing it in the future.
+
 ## Dependency
 
 Yes we have a dependency...
